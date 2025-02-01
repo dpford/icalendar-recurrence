@@ -66,7 +66,8 @@ module Icalendar
         end
 
         event.exdate.each do |exception_date_or_dates|
-          Array(exception_date_or_dates).each do |exception_date|
+          extracted_exdates = exception_date_or_dates.is_a?(Array) ? exception_date_or_dates : [exception_date_or_dates]
+          extracted_exdates.each do |exception_date|
             # exception times should have the same tz offset as the event start or they'll be ignored as different times
             # ignored if ActiveSupport::TimeWithZone is available
             schedule.add_exception_time(TimeUtil.to_time(exception_date, moment: start_time))
